@@ -4523,14 +4523,13 @@
             "type": "prometheus",
             "uid": "${prom_ds}"
           },
-          "description": "CPU used by the NATS Server process normalized by number of cores (% of total machine capacity)",
+          "description": "CPU usage divided by GOMAXPROCS. 100% = all GOMAXPROCS threads fully utilized.",
           "fieldConfig": {
             "defaults": {
               "color": {
                 "mode": "palette-classic"
               },
               "custom": {
-                "axisLabel": "% of total CPU",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
                 "drawStyle": "line",
@@ -4603,12 +4602,12 @@
           "pluginVersion": "8.3.4",
           "targets": [
             {
-              "expr": "nats_core_cpu_percentage{server_cluster=~\"$cluster\"} / nats_core_core_count{server_cluster=~\"$cluster\"}",
+              "expr": "nats_core_cpu_percentage{server_cluster=~\"$cluster\"} / nats_core_gomaxprocs{server_cluster=~\"$cluster\"}",
               "legendFormat": "{{server_name}}",
               "refId": "A"
             }
           ],
-          "title": "CPU Usage (Normalized)",
+          "title": "CPU Utilization (% of GOMAXPROCS)",
           "type": "timeseries"
         },
         {
@@ -4616,9 +4615,10 @@
             "type": "prometheus",
             "uid": "${prom_ds}"
           },
+          "description": "Memory usage (RSS) divided by GOMEMLIMIT. 100% = process at memory limit.",
           "id": 85,
           "type": "timeseries",
-          "title": "Memory Usage (% of GOMEMLIMIT)",
+          "title": "Memory Utilization (% of GOMEMLIMIT)",
           "gridPos": {
             "x": 12,
             "y": 17,
